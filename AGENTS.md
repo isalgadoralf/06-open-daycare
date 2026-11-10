@@ -27,9 +27,39 @@ Retain qualifying friction even if it is later fixed or worked around; record th
 
 Before the final response, run one reporting pass. If candidates remain, from this file's directory run `npx --no-install next internal agent-feedback-instructions` once without piping or truncating its output. Follow its output or error guidance. If a network sandbox blocks it, retry with network access; if it still returns no output, continue normally.
 
-## MPCs
-
-- Playwright Screenshots Y cualquier cosa relacionada con Playwright tiene que estar en la carpeta .playwright-mcp. 
-- Context7, usaremos este MCP para traer la documentación actualizada del framework. 
 <!-- END:nextjs-agent-feedback -->
- 
+
+# OpenDayCare
+
+App de gestión de guardería con UI en español. `app/` sigue siendo el starter de `create-next-app` (`page.tsx` por defecto, fuentes Geist, metadata de placeholder); la UI del producto todavía no está construida.
+
+## Fuente de verdad del diseño
+
+- `references/pantallas/*.dc.html` son mockups HTML estáticos de cada pantalla: vistas de docente (`feed`, `ninos`, `perfil-nino`, `agregar-nino`, `vincular-padre`, `avisos`, `mi-cuenta`, `crear-publicacion`), vistas de familia (`familia-feed`, `detalle-publicacion`, `resumen-dia`, `familia-cuenta`), y pantallas de auth/media (`login`, `activar-cuenta`, `foto`). Leé el mockup correspondiente antes de construir una pantalla; respetá su layout y sus textos en vez de inventar.
+- `references/screenshots/` tiene PNGs renderizados de algunas de esas pantallas.
+- Lenguaje visual: fondo crema `#F6ECDF`, superficie `#FFFDF9`, borde `#ECE0D0`, texto `#3F362E`, acento coral `#EE8164` / `#D9583C`. Títulos en Fredoka, cuerpo en Nunito (solo cargadas dentro de los mockups; `app/layout.tsx` todavía carga Geist).
+- Los textos, etiquetas y datos de la UI van en español, con acentos. Mantené el texto nuevo en español.
+
+## Comandos
+
+- `npm run dev` — servidor de desarrollo con Turbopack. Escribe `.next/dev/lock` (PID/puerto); no mates un servidor existente sin mirar.
+- `npm run build` — la verificación real: compila, chequea tipos y prerenderiza. Corrélo antes de dar por terminado un cambio.
+- `npx tsc --noEmit` — solo chequeo de tipos, más rápido que un build completo.
+- `npx eslint app` — lintea el código de la app.
+- `npm run lint` hoy sale con código 1 porque también lintea `references/pantallas/support.js` (runtime generado de los mockups). Linteá `app`; nunca edites ese archivo generado para silenciarlo.
+- No hay runner de tests configurado.
+
+## Particularidades de Next.js 16
+
+- `next.config.ts` habilita `cacheComponents` y `partialPrefetching`. PPR es el comportamiento por defecto: los datos dinámicos sin cachear (`cookies()`, `headers()`, `connection()`, `fetch`) deben ir dentro de `<Suspense>` o cacheados con `"use cache"`, o el prerender falla. No agregues `export const runtime`: Cache Components solo corre en Node.
+- Con `partialPrefetching`, los links prefetchean un App Shell estático por ruta. `<Link prefetch={true}>` también trae datos que dependen de la URL y puede generar warnings en dev; usalo solo si hace falta.
+- Tailwind 4 está conectado mediante el loader `@tailwindcss/turbopack` declarado en `next.config.ts`. No hay archivo de PostCSS ni `tailwind.config`: no los crees, y usá la sintaxis v4 `@import "tailwindcss"` + `@theme inline` que ya está en `app/globals.css`.
+- `LayoutProps<"/">` y `PageProps<"/route">` son helpers globales generados a partir del árbol de rutas. No los importes ni escribas a mano los tipos de `params` / `searchParams`.
+- `next dev` y `next build` reescriben los dos bloques administrados del inicio de este archivo. Dejá los marcadores intactos, no los traduzcas, y poné las notas del proyecto debajo; si no, se pierden.
+- La documentación de esta versión exacta está en `node_modules/next/dist/docs/`; preferila antes que APIs de memoria.
+
+## MCP y skills
+
+- Playwright MCP está configurado en `opencode.json`. Toda captura y artefacto de Playwright va bajo `.playwright-mcp/`; esa carpeta está en `.gitignore`, así que no aparece en diffs ni commits.
+- Usá el MCP de Context7 para documentación actualizada de frameworks y librerías.
+- Los skills de especificación están en `.agents/skills/`: `spec` escribe specs y `spec-impl` las implementa. Las specs van en `specs/NN-slug.md` (la carpeta todavía no existe). Solo se puede implementar una spec cuyo estado signifique Approved; ese cambio lo hace la persona, y ningún skill commitea por su cuenta.
