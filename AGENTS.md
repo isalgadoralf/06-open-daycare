@@ -30,5 +30,6 @@ Before the final response, run one reporting pass. If candidates remain, from th
 ## MPCs
 
 - Playwright Screenshots Y cualquier cosa relacionada con Playwright tiene que estar en la carpeta .playwright-mcp. 
+- Context7, usaremos este MCP para traer la documentación actualizada del framework. 
 <!-- END:nextjs-agent-feedback -->
  
