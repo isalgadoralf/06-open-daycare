@@ -102,7 +102,7 @@ Convenciones:
 - Los valores de datos (`"Mateo"`, `"martes 17 jun"`, los cuerpos de los posts) conservan el español porque son contenido, no código.
 - La fecha es literal (`"martes 17 jun"`), no se calcula con `new Date()`.
 - No hay estado de cliente: todo son componentes de servidor.
-- Ningún componente importa `@/data/feed`; solo `app/page.tsx` lo hace y pasa datos por props.
+- Ningún componente importa valores de `@/data/feed`; solo `app/page.tsx` los importa y pasa datos por props. Los tipos compartidos (`Post`, `PostKind`, `Teacher`) sí se importan con `import type`.
 
 ## Plan de implementación
 
@@ -123,23 +123,25 @@ Cada paso deja el sistema compilando y navegable.
 
 ## Criterios de aceptación
 
-- [ ] `/` responde 200 y la consola del navegador no muestra errores ni warnings de hidratación.
-- [ ] A `1280×800` la captura de `/` coincide con la de `feed.dc.html` en colores, tipografías, tamaños, sombras y espaciados; las únicas diferencias visibles son las derivadas del min-width.
-- [ ] El documento tiene `lang="es"` y el título de la pestaña es `OpenDayCare`.
-- [ ] No queda ninguna referencia a Geist, `--background`, `--foreground` ni al modo oscuro del starter.
-- [ ] El body no scrollea verticalmente: scrollea solo `<main>`, y la sidebar permanece visible al llegar al final del feed.
-- [ ] Ningún clic de la página lleva a una ruta inexistente ni produce 404.
-- [ ] Los 3 posts muestran tipo, hora, destinatario, texto, likes y comentarios exactos del mockup, en ese orden.
-- [ ] Los `kind` del código son `achievement`, `activity` y `announcement`; en pantalla se ven «LOGRO», «ACTIVIDAD» y «ANUNCIO».
-- [ ] El post de actividad muestra el hueco punteado de 200px con «Foto · pintando con témperas».
-- [ ] La barra de scroll del área central se ve con el pulgar `#E4D6C4`.
-- [ ] A `900px` de ancho el layout no se superpone: aparece scroll horizontal y el contenido conserva sus medidas.
-- [ ] `app/` contiene solo `page.tsx`, `layout.tsx`, `globals.css` y `favicon.ico`; no hay componentes dentro de `app/`.
-- [ ] `components/shared/` contiene exactamente `app-sidebar.tsx`, `brand-mark.tsx`, `avatar.tsx`, `post-kind-badge.tsx` e `icons.tsx`; `components/home/` contiene `feed-composer.tsx`, `feed-post-card.tsx` y `section-label.tsx`. No hay barrels `index.ts`.
-- [ ] Solo `app/page.tsx` importa `@/data/feed`, y ningún archivo lleva `"use client"`.
-- [ ] Todos los identificadores (tipos, props, variables, funciones, constantes y nombres de archivo) están en inglés; los únicos textos en español son los que se ven en pantalla y los valores de contenido de `data/feed.ts`.
-- [ ] `npx tsc --noEmit`, `npx eslint app` y `npm run build` terminan sin errores.
-- [ ] `npm run lint` sigue fallando solo por `references/pantallas/support.js`, sin cambios en ese archivo generado.
+- [x] ✅ `/` responde 200 y la consola del navegador no muestra errores ni warnings de hidratación. — `next start -p 3001`: HTTP 200 y 0 mensajes de consola. En dev: 0 errores; solo 2 warnings de preload del overlay de `nextjs.org/agent-feedback`, ajenos a la app.
+- [x] ✅ A `1280×800` la captura de `/` coincide con la de `feed.dc.html` en colores, tipografías, tamaños, sombras y espaciados; las únicas diferencias visibles son las derivadas del min-width. — `spec01-home-prod-1280.png` vs `spec01-mockup-1280.png`: 18 px distintos de 1.024.000 (0,002 %, delta máx. 7) por antialiasing de fuentes. Medidas: sidebar 248 px, `<main>` 1032 px, columna 760 px. El círculo del anuncio usa `tone="periwinkle"` (`#CCD8F4`/`#4E72C8`), tono que el paso 5 no enumeraba pero exige el mockup.
+- [x] ✅ El documento tiene `lang="es"` y el título de la pestaña es `OpenDayCare`. — `document.documentElement.lang === "es"` y `document.title === "OpenDayCare"`.
+- [x] ✅ No queda ninguna referencia a Geist, `--background`, `--foreground` ni al modo oscuro del starter. — `grep` sobre `app/`, `components/` y `data/` sin coincidencias de `Geist`, `--background`, `--foreground`, `prefers-color-scheme` ni `use client`.
+- [x] ✅ El body no scrollea verticalmente: scrollea solo `<main>`, y la sidebar permanece visible al llegar al final del feed. — `body.scrollHeight 800 = clientHeight 800`; `<main>` 1242/800 con `overflow-y: auto`. Con `<main>` al final, la sidebar sigue en `top: 0` y 800 px de alto.
+- [x] ✅ Ningún clic de la página lleva a una ruta inexistente ni produce 404. — 0 elementos `<a>`; 14 controles inertes con `title="Próximamente"`.
+- [x] ✅ Los 3 posts muestran tipo, hora, destinatario, texto, likes y comentarios exactos del mockup, en ese orden. — DOM: logro (14:20, 3/1), actividad (09:40, 5/2, foto), anuncio (07:50, 8/0), con destinatarios y cuerpos literales.
+- [x] ✅ Los `kind` del código son `achievement`, `activity` y `announcement`; en pantalla se ven «LOGRO», «ACTIVIDAD» y «ANUNCIO». — `data/feed.ts` y `post-kind-badge.tsx`; textos confirmados en el DOM.
+- [x] ✅ El post de actividad muestra el hueco punteado de 200px con «Foto · pintando con témperas». — Medido: 200 px de alto, `border-radius` 16 px, fondo `#F4ECE1`, borde `dashed #DBCDBA` (`border-[1.5px]`; Chrome lo reporta como 1 px en `getComputedStyle`).
+- [x] ✅ La barra de scroll del área central se ve con el pulgar `#E4D6C4`. — Regla en `app/globals.css` (`::-webkit-scrollbar-thumb`, 10 px, radio 8 px); 2032 px del color renderizados en los últimos 11 px de la captura.
+- [x] ✅ A `900px` de ancho el layout no se superpone: aparece scroll horizontal y el contenido conserva sus medidas. — Viewport 900: `scrollWidth 1008` (scroll horizontal), `<main>` 760 px, sidebar 248 px, contenido sin reflow.
+- [x] ✅ `app/` contiene solo `page.tsx`, `layout.tsx`, `globals.css` y `favicon.ico`; no hay componentes dentro de `app/`. — Listado del directorio.
+- [x] ✅ `components/shared/` contiene exactamente `app-sidebar.tsx`, `brand-mark.tsx`, `avatar.tsx`, `post-kind-badge.tsx` e `icons.tsx`; `components/home/` contiene `feed-composer.tsx`, `feed-post-card.tsx` y `section-label.tsx`. No hay barrels `index.ts`. — Listados exactos; `glob components/**/index.{ts,tsx}` sin resultados.
+- [x] ✅ Solo `app/page.tsx` importa valores de `@/data/feed`; los componentes solo importan tipos con `import type` (`Post`, `PostKind`, `Teacher`), y ningún archivo lleva `"use client"`. — Criterio ajustado con aprobación: el plan tipa `PostKind`/`Post` desde `data/feed.ts`, así que prohibir el `import type` contradecía los pasos 6 y 9.
+- [x] ✅ Todos los identificadores (tipos, props, variables, funciones, constantes y nombres de archivo) están en inglés; los únicos textos en español son los que se ven en pantalla y los valores de contenido de `data/feed.ts`. — Búsqueda de identificadores en español en `app/`, `components/` y `data/` sin coincidencias; los textos españoles aparecen solo en strings de UI y valores de contenido.
+- [x] ✅ `npx tsc --noEmit`, `npx eslint app` y `npm run build` terminan sin errores. — Los tres comandos salen con código 0; build: 4 páginas estáticas generadas.
+- [x] ✅ `npm run lint` sigue fallando solo por `references/pantallas/support.js`, sin cambios en ese archivo generado. — 2 errores en `support.js` (`react/no-deprecated`, `@next/next/no-assign-module-variable`); `git status` limpio.
+
+Evidencia en `.playwright-mcp/`: `spec01-home-1280.png`, `spec01-mockup-1280.png`, `spec01-home-prod-1280.png`, `spec01-home-900.png`, `spec01-diff-1280.png`.
 
 ## Decisiones
 

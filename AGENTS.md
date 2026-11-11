@@ -62,7 +62,14 @@ App de gestión de guardería con UI en español. `app/` sigue siendo el starter
 
 - Playwright MCP está configurado en `opencode.json`. Toda captura y artefacto de Playwright va bajo `.playwright-mcp/`; esa carpeta está en `.gitignore`, así que no aparece en diffs ni commits.
 - Usá el MCP de Context7 para documentación actualizada de frameworks y librerías.
-- Los skills de especificación están en `.agents/skills/`: `spec` escribe specs y `spec-impl` las implementa. Las specs van en `specs/NN-slug.md` (la carpeta todavía no existe). Solo se puede implementar una spec cuyo estado signifique Approved; ese cambio lo hace la persona, y ningún skill commitea por su cuenta.
+- Los skills de especificación están en `.agents/skills/`: `spec` escribe specs y `spec-impl` las implementa. Las specs van en `specs/NN-slug.md`. Solo se puede implementar una spec cuyo estado signifique Approved; ese cambio lo hace la persona, y ningún skill commitea por su cuenta.
+
+## Agentes y comandos
+
+- `.opencode/agents/spec-check.md` define el agente `spec-check` (`mode: all`, modelo `opencode-go/qwen3.7-plus`): verifica los criterios de aceptación de un spec, corrige el código o el spec cuando algo no cumple, y marca cada check con su evidencia. Compara pantallas con Playwright contra los mockups y consulta Context7 para las prácticas de Next.js.
+- Comando: `/spec-check <spec>`, por ejemplo `/spec-check 01-feed-home`. Acepta número (`01`), slug (`feed-home`) o archivo completo (`01-feed-home.md`). Desde otro agente: «Usá el agente spec-check para verificar `specs/01-feed-home.md`».
+- Permisos: edita sin preguntar `specs/*`, `app/*`, `components/*`, `data/*`, `public/*`, `next.config.ts`, `package.json` y `AGENTS.md`; cualquier otra ruta pide confirmación. En shell solo corre sin preguntar los comandos de verificación (`npx tsc*`, `npx eslint*`, `npm run dev|build|lint|start*`, `ls`, `cat`, `git status|diff|branch`). Playwright y Context7 permitidos; subagentes denegados.
+- Nunca commitea ni cambia el estado del spec: solo marca los checks y reporta hallazgos, correcciones y evidencia.
 
 ## Reglas de codigo
 - Usar código limpio, nombres, funciones y variables, etc en inglés. 
