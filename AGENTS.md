@@ -63,3 +63,6 @@ App de gestión de guardería con UI en español. `app/` sigue siendo el starter
 - Playwright MCP está configurado en `opencode.json`. Toda captura y artefacto de Playwright va bajo `.playwright-mcp/`; esa carpeta está en `.gitignore`, así que no aparece en diffs ni commits.
 - Usá el MCP de Context7 para documentación actualizada de frameworks y librerías.
 - Los skills de especificación están en `.agents/skills/`: `spec` escribe specs y `spec-impl` las implementa. Las specs van en `specs/NN-slug.md` (la carpeta todavía no existe). Solo se puede implementar una spec cuyo estado signifique Approved; ese cambio lo hace la persona, y ningún skill commitea por su cuenta.
+
+## Reglas de codigo
+- Usar código limpio, nombres, funciones y variables, etc en inglés. 
