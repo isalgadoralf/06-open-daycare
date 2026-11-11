@@ -1,26 +1,59 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-cream: #f6ecdf;
+  --color-card: #fffdf9;
+  --color-edge: #ece0d0;
+  --color-divider: #e7dac8;
+  --color-action-line: #f0e6d8;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-heading: #3f362e;
+  --color-copy: #4a4038;
+  --color-secondary: #94887b;
+  --color-meta: #a89a8b;
+  --color-label: #8a7c6d;
+  --color-nav: #6e6359;
+
+  --color-coral: #ee8164;
+  --color-coral-strong: #d9583c;
+  --color-cta-start: #f4977e;
+  --color-nav-active: #fbe3d8;
+  --color-edit: #c5503a;
+  --color-heart: #e0654a;
+
+  --color-badge-achievement: #cfebd8;
+  --color-badge-achievement-ink: #3e9b6c;
+  --color-badge-activity: #c7e7f1;
+  --color-badge-activity-ink: #2e89a6;
+  --color-badge-announcement: #ccd8f4;
+  --color-badge-announcement-ink: #4e72c8;
+
+  --color-media: #f4ece1;
+  --color-media-line: #dbcdba;
+  --color-media-ink: #b0a290;
+
+  --color-avatar-peach: #f2937a;
+  --color-avatar-sky: #a9d9e8;
+  --color-avatar-sky-ink: #1f7a93;
+  --color-avatar-lilac: #c9b6e8;
+
+  --font-sans: var(--font-nunito);
+  --font-heading: var(--font-fredoka);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-cream);
+  color: var(--color-heading);
+  font-family: var(--font-nunito), system-ui, sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e4d6c4;
+  border-radius: 8px;
+  border: 3px solid transparent;
+  background-clip: content-box;
 }
