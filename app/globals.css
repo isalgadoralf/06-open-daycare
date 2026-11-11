@@ -36,6 +36,8 @@
   --color-avatar-sky: #a9d9e8;
   --color-avatar-sky-ink: #1f7a93;
   --color-avatar-lilac: #c9b6e8;
+  --color-avatar-periwinkle: #ccd8f4;
+  --color-avatar-periwinkle-ink: #4e72c8;
 
   --font-sans: var(--font-nunito);
   --font-heading: var(--font-fredoka);
@@ -45,6 +47,7 @@ body {
   background-color: var(--color-cream);
   color: var(--color-heading);
   font-family: var(--font-nunito), system-ui, sans-serif;
+  line-height: normal;
 }
 
 ::-webkit-scrollbar {
