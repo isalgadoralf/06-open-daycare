@@ -7,7 +7,7 @@ import { classroom, posts, teacher } from "@/data/feed";
 export default function Home() {
   return (
     <div className="flex h-screen min-w-[1008px] bg-cream">
-      <AppSidebar room={classroom.room} teacher={teacher} />
+      <AppSidebar activeItem="feed" room={classroom.room} teacher={teacher} />
 
       <main className="h-screen min-w-0 flex-1 overflow-y-auto">
         <div className="mx-auto w-full max-w-[760px] px-10 pt-[34px] pb-20">

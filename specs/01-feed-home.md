@@ -1,6 +1,6 @@
 # SPEC 01 — Home con el feed de la docente
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** —
 > **Fecha:** 2026-11-10
 > **Objetivo:** Reemplazar la home del starter por una réplica estática del mockup `references/pantallas/feed.dc.html`, con datos de ejemplo tipados y sin autenticación ni base de datos.
