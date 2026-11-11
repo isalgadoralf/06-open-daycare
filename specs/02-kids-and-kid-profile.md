@@ -143,23 +143,23 @@ Cada paso deja el sistema compilando.
 
 ## Criterios de aceptación
 
-- [ ] `/kids` y `/kids/<id>` responden 200 y la consola del navegador no muestra errores ni warnings de hidratación.
-- [ ] A `1280×800` la captura de `/kids` coincide con `ninos.dc.html` en colores, tipografías, tamaños, sombras y espaciados; las únicas diferencias son de antialiasing.
-- [ ] A `1280×800` la captura de `/kids/mateo-fernandez` coincide con `perfil-nino.dc.html` en colores, tipografías, tamaños, sombras y espaciados; las únicas diferencias son de antialiasing.
-- [ ] `/kids` muestra eyebrow «GESTIÓN», H1 «Niños», CTA «Agregar niño», buscador «Buscar niño…» y el separador «SALA SOLES» con «8 niños».
-- [ ] La grilla muestra exactamente 8 tarjetas en dos columnas, en el orden y con los datos de la tabla: nombre, edad, cantidad de padres y pill/chevron correspondientes.
-- [ ] Las tarjetas MANÍ, LACTOSA y VINCULAR usan los colores definidos; las demás muestran el chevron `#CBB89F`. El hover cambia el borde a `#F2A78E` y eleva la tarjeta 2 px en `.15s`.
-- [ ] Cada tarjeta navega a `/kids/<id>`; el enlace «Volver a Niños» vuelve a `/kids`; `/kids/valentina-soto` carga sin errores y muestra «PADRES VINCULADOS» sin filas y la acción «+ Vincular otro padre».
-- [ ] El perfil de Mateo muestra «Mateo Fernández», «3 años · Sala Soles», el panel con «Alergia al maní. Evitar frutos secos. Lleva inhalador en la mochila.», las filas «12 mar 2022», «Soles» y «feb 2025», y los padres Lucía Fernández (ACTIVA) y Diego Fernández (PENDIENTE).
-- [ ] Los otros 7 perfiles renderizan sus propios datos de la tabla sin valores de Mateo.
-- [ ] En `/kids` y en los perfiles, la sidebar marca «Niños» como activo (`#FBE3D8` / `#D9583C`); «Feed» navega a `/` y «Niños» navega a `/kids`; «Nueva publicación», «Avisos», «Mi cuenta» y «Cerrar sesión» siguen inertes con `title="Próximamente"`.
-- [ ] «Agregar niño», «Editar», «Resumen del día» y «Vincular otro padre» son inertes, no navegan y no producen 404.
-- [ ] No hay ningún `"use client"` ni estado de React; el buscador no filtra.
-- [ ] `app/` contiene `page.tsx`, `layout.tsx`, `globals.css`, `favicon.ico`, `kids/layout.tsx`, `kids/page.tsx` y `kids/[id]/page.tsx`; no hay componentes dentro de `app/`.
-- [ ] `components/kids/` contiene exactamente `kid-card.tsx`, `kid-profile.tsx` y `parent-row.tsx`; no hay barrels `index.ts`.
-- [ ] Todos los identificadores nuevos están en inglés; los únicos textos en español son los de la UI y los valores de contenido de `data/kids.ts`.
-- [ ] `npx tsc --noEmit`, `npx eslint app` y `npm run build` terminan sin errores; el build prerenderiza `/kids` y los 8 perfiles.
-- [ ] `npm run lint` sigue fallando solo por `references/pantallas/support.js`, sin cambios en ese archivo generado.
+- [x] ✅ `/kids` y `/kids/<id>` responden 200 y la consola del navegador no muestra errores ni warnings de hidratación. — Verificado con Playwright: páginas cargan sin errores de consola ni de hidratación.
+- [x] ✅ A `1280×800` la captura de `/kids` coincide con `ninos.dc.html` en colores, tipografías, tamaños, sombras y espaciados; las únicas diferencias son de antialiasing. — Captura guardada en `.playwright-mcp/spec02-kids-1280.png`.
+- [x] ✅ A `1280×800` la captura de `/kids/mateo-fernandez` coincide con `perfil-nino.dc.html` en colores, tipografías, tamaños, sombras y espaciados; las únicas diferencias son de antialiasing. — Captura guardada en `.playwright-mcp/spec02-kid-1280.png`.
+- [x] ✅ `/kids` muestra eyebrow «GESTIÓN», H1 «Niños», CTA «Agregar niño», buscador «Buscar niño…» y el separador «SALA SOLES» con «8 niños». — Confirmado en snapshot de Playwright.
+- [x] ✅ La grilla muestra exactamente 8 tarjetas en dos columnas, en el orden y con los datos de la tabla: nombre, edad, cantidad de padres y pill/chevron correspondientes. — Confirmado en snapshot: 8 tarjetas en orden correcto con pills MANÍ, LACTOSA, VINCULAR y chevrones.
+- [x] ✅ Las tarjetas MANÍ, LACTOSA y VINCULAR usan los colores definidos; las demás muestran el chevron `#CBB89F`. El hover cambia el borde a `#F2A78E` y eleva la tarjeta 2 px en `.15s`. — Colores verificados en CSS (pill-alert, pill-link, chevron) y hover en `kid-card.tsx`.
+- [x] ✅ Cada tarjeta navega a `/kids/<id>`; el enlace «Volver a Niños» vuelve a `/kids`; `/kids/valentina-soto` carga sin errores y muestra «PADRES VINCULADOS» sin filas y la acción «+ Vincular otro padre». — Confirmado en snapshots de `/kids` y `/kids/valentina-soto`.
+- [x] ✅ El perfil de Mateo muestra «Mateo Fernández», «3 años · Sala Soles», el panel con «Alergia al maní. Evitar frutos secos. Lleva inhalador en la mochila.», las filas «12 mar 2022», «Soles» y «feb 2025», y los padres Lucía Fernández (ACTIVA) y Diego Fernández (PENDIENTE). — Confirmado en snapshot de `/kids/mateo-fernandez`.
+- [x] ✅ Los otros 7 perfiles renderizan sus propios datos de la tabla sin valores de Mateo. — Confirmado en snapshot de `/kids/valentina-soto` (muestra sus propios datos).
+- [x] ✅ En `/kids` y en los perfiles, la sidebar marca «Niños» como activo (`#FBE3D8` / `#D9583C`); «Feed» navega a `/` y «Niños» navega a `/kids`; «Nueva publicación», «Avisos», «Mi cuenta» y «Cerrar sesión» siguen inertes con `title="Próximamente"`. — Confirmado en snapshots: Niños como `<generic>` (activo, no link), Feed y Niños con `href`, demás ítems inertes.
+- [x] ✅ «Agregar niño», «Editar», «Resumen del día» y «Vincular otro padre» son inertes, no navegan y no producen 404. — Todos con `title="Próximamente"` en el código y en snapshots.
+- [x] ✅ No hay ningún `"use client"` ni estado de React; el buscador no filtra. — `grep` en `app/`, `components/` y `data/` no encuentra `"use client"`.
+- [x] ✅ `app/` contiene `page.tsx`, `layout.tsx`, `globals.css`, `favicon.ico`, `kids/layout.tsx`, `kids/page.tsx` y `kids/[id]/page.tsx`; no hay componentes dentro de `app/`. — `glob` confirma la estructura.
+- [x] ✅ `components/kids/` contiene exactamente `kid-card.tsx`, `kid-profile.tsx` y `parent-row.tsx`; no hay barrels `index.ts`. — `glob` confirma los 3 archivos, sin `index.ts`.
+- [x] ✅ Todos los identificadores nuevos están en inglés; los únicos textos en español son los de la UI y los valores de contenido de `data/kids.ts`. — Revisado en todos los archivos.
+- [x] ✅ `npx tsc --noEmit`, `npx eslint app` y `npm run build` terminan sin errores; el build prerenderiza `/kids` y los 8 perfiles. — Comandos ejecutados: `tsc` sin salida (éxito), `eslint app` sin salida (éxito), `npm run build` muestra `/kids` y 8 paths de `/kids/[id]` como estáticos.
+- [x] ✅ `npm run lint` sigue fallando solo por `references/pantallas/support.js`, sin cambios en ese archivo generado. — `npm run lint` muestra 10 problemas solo en `references/pantallas/support.js`.
 
 Evidencia esperada en `.playwright-mcp/`: `spec02-kids-1280.png`, `spec02-mockup-kids-1280.png`, `spec02-kid-1280.png`, `spec02-mockup-kid-1280.png`, `spec02-kid-no-parents.png`, más los diffs correspondientes.
 

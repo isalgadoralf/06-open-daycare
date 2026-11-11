@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ComponentType } from "react";
 import { Avatar } from "@/components/shared/avatar";
 import { BrandMark } from "@/components/shared/brand-mark";
@@ -11,25 +12,29 @@ import {
 } from "@/components/shared/icons";
 import type { Teacher } from "@/data/feed";
 
+export type NavItemKey = "feed" | "kids" | "notices" | "account";
+
 type NavItem = {
+  key: NavItemKey;
   label: string;
   icon: ComponentType;
-  active: boolean;
+  href?: string;
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Feed", icon: HomeIcon, active: true },
-  { label: "Niños", icon: ChildrenIcon, active: false },
-  { label: "Avisos", icon: BellIcon, active: false },
-  { label: "Mi cuenta", icon: UserIcon, active: false },
+  { key: "feed", label: "Feed", icon: HomeIcon, href: "/" },
+  { key: "kids", label: "Niños", icon: ChildrenIcon, href: "/kids" },
+  { key: "notices", label: "Avisos", icon: BellIcon },
+  { key: "account", label: "Mi cuenta", icon: UserIcon },
 ];
 
 type AppSidebarProps = {
+  activeItem: NavItemKey;
   room: string;
   teacher: Teacher;
 };
 
-export function AppSidebar({ room, teacher }: AppSidebarProps) {
+export function AppSidebar({ activeItem, room, teacher }: AppSidebarProps) {
   return (
     <aside className="sticky top-0 flex h-screen w-[248px] flex-none flex-col border-r border-edge bg-card px-4 py-6">
       <BrandMark room={room} />
@@ -45,17 +50,33 @@ export function AppSidebar({ room, teacher }: AppSidebarProps) {
       <nav className="flex flex-1 flex-col gap-1">
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
+          const isActive = item.key === activeItem;
+          const className = `flex items-center gap-3 rounded-xl px-3 py-[11px] text-[14.5px] ${
+            isActive
+              ? "bg-nav-active font-extrabold text-coral-strong"
+              : "bg-transparent font-semibold text-nav"
+          }`;
+
+          if (item.href) {
+            return (
+              <Link
+                key={item.key}
+                href={item.href}
+                aria-current={isActive ? "page" : undefined}
+                className={className}
+              >
+                <Icon />
+                {item.label}
+              </Link>
+            );
+          }
 
           return (
             <span
-              key={item.label}
-              aria-current={item.active ? "page" : undefined}
-              title={item.active ? undefined : "Próximamente"}
-              className={`flex items-center gap-3 rounded-xl px-3 py-[11px] text-[14.5px] ${
-                item.active
-                  ? "bg-nav-active font-extrabold text-coral-strong"
-                  : "bg-transparent font-semibold text-nav"
-              }`}
+              key={item.key}
+              aria-current={isActive ? "page" : undefined}
+              title={isActive ? undefined : "Próximamente"}
+              className={className}
             >
               <Icon />
               {item.label}

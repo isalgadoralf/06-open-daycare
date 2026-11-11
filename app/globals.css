@@ -38,6 +38,30 @@
   --color-avatar-lilac: #c9b6e8;
   --color-avatar-periwinkle: #ccd8f4;
   --color-avatar-periwinkle-ink: #4e72c8;
+  --color-avatar-rose: #f4b8cc;
+  --color-avatar-rose-ink: #c44a7a;
+  --color-avatar-mint: #b9dec4;
+  --color-avatar-mint-ink: #3e8b62;
+  --color-avatar-sun: #f4dc8e;
+  --color-avatar-sun-ink: #9a7b1e;
+  --color-avatar-violet: #c9b6e8;
+  --color-avatar-violet-ink: #7b5fc0;
+  --color-avatar-blue: #a9c7e8;
+
+  --color-kid-hover: #f2a78e;
+  --color-pill-alert: #fbd8cc;
+  --color-pill-alert-ink: #d9684a;
+  --color-pill-link: #f9d2de;
+  --color-pill-link-ink: #c56486;
+  --color-alert-panel: #fbdad6;
+  --color-alert-icon: #f4a8a0;
+  --color-alert-title: #c5413a;
+  --color-alert-copy: #b25249;
+  --color-badge-pending: #f7e7a6;
+  --color-badge-pending-ink: #9a7b1e;
+  --color-placeholder: #b6a99b;
+  --color-dashed: #d8cbba;
+  --color-chevron: #cbb89f;
 
   --font-sans: var(--font-nunito);
   --font-heading: var(--font-fredoka);
