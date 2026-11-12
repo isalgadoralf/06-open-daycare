@@ -1,6 +1,6 @@
 # SPEC 03 — Login y activación de cuenta
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 01, SPEC 02
 > **Fecha:** 2026-11-12
 > **Objetivo:** Agregar `/login` y `/activate-account` como réplicas de `login.dc.html` (sin el bloque «INGRESO COMO», por decisión del usuario) y `activar-cuenta.dc.html`, con una auth simulada que guarda el email en localStorage y «Cerrar sesión» como enlace al login.
