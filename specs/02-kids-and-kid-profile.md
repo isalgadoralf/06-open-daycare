@@ -1,6 +1,6 @@
 # SPEC 02 — Lista de niños y perfil del niño
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 01
 > **Fecha:** 2026-11-11
 > **Objetivo:** Agregar `/kids` y `/kids/[id]` como réplicas estáticas de `ninos.dc.html` y `perfil-nino.dc.html`, reutilizando el shell, las fuentes y los tokens del home y con datos de ejemplo tipados.

@@ -94,13 +94,13 @@ export function AppSidebar({ activeItem, room, teacher }: AppSidebarProps) {
             </div>
             <div className="text-[12px] text-meta">{teacher.role}</div>
           </div>
-          <span
-            title="Próximamente"
+          <Link
+            href="/login"
             aria-label="Cerrar sesión"
             className="flex h-8 w-8 flex-none items-center justify-center rounded-[10px] bg-cream text-secondary"
           >
             <LogOutIcon />
-          </span>
+          </Link>
         </div>
       </div>
     </aside>
