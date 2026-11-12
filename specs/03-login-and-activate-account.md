@@ -104,23 +104,23 @@ Cada paso deja el sistema compilando y navegable.
 
 ## Criterios de aceptación
 
-- [ ] `/login` y `/activate-account` responden 200 y la consola del navegador no muestra errores ni warnings de hidratación.
-- [ ] `/login` no renderiza «INGRESO COMO» ni los botones «Personal»/«Familia»; después del subtítulo va directo al label EMAIL.
-- [ ] A `1280×800`, el panel izquierdo de `/login` (gradiente, círculos, marca, headline, footer) coincide con `login.dc.html` en colores, tipografías, tamaños y espaciados.
-- [ ] A `1280×800`, la captura de `/activate-account` coincide con `activar-cuenta.dc.html` salvo antialiasing.
-- [ ] El campo email es editable con valor inicial `caro@opendaycare.com`; la contraseña es `type="password"` con placeholder `••••••••`.
-- [ ] Al enviar el formulario, `localStorage` queda con `{"email": "…"}` bajo la clave `opendaycare:session:v1` y la app navega a `/`.
-- [ ] Con `localStorage` bloqueado, el submit no lanza error y navega a `/` igualmente.
-- [ ] «¿Olvidaste tu contraseña?» y «Activar mi cuenta» son inertes con `title="Próximamente"` y no navegan.
-- [ ] «Activá tu cuenta» navega a `/activate-account` y «Iniciar sesión» (footer de activar) navega a `/login`.
-- [ ] `/activate-account` muestra literalmente: badge con sol, «Bienvenida a OpenDayCare», «Te invitaron a seguir a» / «Mateo · Sala Soles», código `7K4P9`, `lucia.fernandez@gmail.com`, contraseña con borde `#F2A78E` y el consentimiento marcado con el texto exacto.
-- [ ] El checkbox de consentimiento no cambia al hacer clic (es visual).
-- [ ] En `/`, `/kids` y los perfiles, «Cerrar sesión» es un enlace a `/login` y ninguna otra parte de esas pantallas cambió (captura del home idéntica a la de SPEC 01).
-- [ ] Solo `components/auth/login-form.tsx` contiene `"use client"`; ningún archivo existente lo agrega.
-- [ ] `app/` contiene exactamente los archivos previos más `login/page.tsx` y `activate-account/page.tsx`; `components/auth/` contiene exactamente `login-brand-panel.tsx`, `login-form.tsx`, `invitation-card.tsx` y `activate-account-form.tsx`; sin barrels `index.ts`.
-- [ ] Todos los identificadores nuevos están en inglés; los únicos textos en español son los de la UI y los valores de `data/auth.ts`.
-- [ ] `npx tsc --noEmit`, `npx eslint app` y `npm run build` terminan sin errores, con `/login` y `/activate-account` prerenderizadas.
-- [ ] `npm run lint` sigue fallando solo por `references/pantallas/support.js`, sin cambios en ese archivo.
+- [x] ✅ `/login` y `/activate-account` responden 200 (verificado con fetch en Playwright) y la consola del navegador no muestra errores ni warnings de hidratación. Build OK sin errores.
+- [x] ✅ `/login` no renderiza «INGRESO COMO» ni los botones «Personal»/«Familia»; después del subtítulo va directo al label EMAIL (verificado con `document.body.innerText` en Playwright: `hasIngresoComo: false`).
+- [x] ✅ A `1280×800`, el panel izquierdo de `/login` (gradiente, círculos, marca, headline, footer) coincide con `login.dc.html` en colores, tipografías, tamaños y espaciados (captura en `.playwright-mcp/spec03-login-panel-1280.png`; todos los valores de las anclas verificados línea por línea en `login-brand-panel.tsx`).
+- [x] ✅ A `1280×800`, la captura de `/activate-account` coincide con `activar-cuenta.dc.html` salvo antialiasing (captura en `.playwright-mcp/spec03-activate-1280.png`; badge, textos, tarjeta, código, email, contraseña borde cálido, consentimiento y footer verificados).
+- [x] ✅ El campo email es editable con valor inicial `caro@opendaycare.com`; la contraseña es `type="password"` con placeholder `••••••••` (verificado en snapshot de Playwright y en código `login-form.tsx`).
+- [x] ✅ Al enviar el formulario, `localStorage` queda con `{"email":"caro@opendaycare.com"}` bajo la clave `opendaycare:session:v1` y la app navega a `/` (verificado con Playwright: URL cambió a `http://localhost:3000/` y `localStorage.getItem('opendaycare:session:v1')` retornó el JSON esperado).
+- [x] ✅ Con `localStorage` bloqueado, el submit no lanza error y navega a `/` igualmente (código: `try/catch` alrededor de `setItem` en `login-form.tsx:22-29`; la navegación `router.push("/")` está fuera del try).
+- [x] ✅ «¿Olvidaste tu contraseña?» y «Activar mi cuenta» son inertes con `title="Próximamente"` y no navegan (verificado: `span[title="Próximamente"]` encontrado en login; botón `type="button"` con `title="Próximamente"` en activate-account; clic en ambos no cambia URL).
+- [x] ✅ «Activá tu cuenta» navega a `/activate-account` y «Iniciar sesión» (footer de activar) navega a `/login` (verificado con Playwright: ambos links cambian la URL correctamente).
+- [x] ✅ `/activate-account` muestra literalmente: badge con sol, «Bienvenida a OpenDayCare», «Te invitaron a seguir a» / «Mateo · Sala Soles», código `7K4P9`, `lucia.fernandez@gmail.com`, contraseña con borde `#F2A78E` y el consentimiento marcado con el texto exacto (verificado en captura y código `activate-account-form.tsx`).
+- [x] ✅ El checkbox de consentimiento no cambia al hacer clic (es visual) (verificado: el área de consentimiento usa `<span>` no `<input>`; clic no altera el DOM).
+- [x] ✅ En `/`, `/kids` y los perfiles, «Cerrar sesión» es un enlace a `/login` y ninguna otra parte de esas pantallas cambió (verificado en snapshot de home: `link "Cerrar sesión"` con `/url: /login`; captura en `.playwright-mcp/spec03-home-unchanged-1280.png`).
+- [x] ✅ Solo `components/auth/login-form.tsx` contiene `"use client"`; ningún archivo existente lo agrega (verificado con grep: único match en `components/auth/login-form.tsx:1`).
+- [x] ✅ `app/` contiene exactamente los archivos previos más `login/page.tsx` y `activate-account/page.tsx`; `components/auth/` contiene exactamente `login-brand-panel.tsx`, `login-form.tsx`, `invitation-card.tsx` y `activate-account-form.tsx`; sin barrels `index.ts` (verificado con glob: 4 archivos en `components/auth/`, sin `index.*`; `app/` tiene los archivos previos + 2 nuevos).
+- [x] ✅ Todos los identificadores nuevos están en inglés; los únicos textos en español son los de la UI y los valores de `data/auth.ts` (verificado: nombres de componentes, props, variables, keys en inglés; textos visibles en español con acentos).
+- [x] ✅ `npx tsc --noEmit`, `npx eslint app` y `npm run build` terminan sin errores, con `/login` y `/activate-account` prerenderizadas como estáticas (`○` en el output del build).
+- [x] ✅ `npm run lint` sigue fallando solo por `references/pantallas/support.js`, sin cambios en ese archivo (verificado: 10 problemas, todos en `references/pantallas/support.js`).
 
 Evidencia esperada en `.playwright-mcp/`: `spec03-login-panel-1280.png`, `spec03-login-form-1280.png`, `spec03-mockup-login-1280.png`, `spec03-activate-1280.png`, `spec03-mockup-activate-1280.png`, `spec03-home-unchanged-1280.png`.
 
