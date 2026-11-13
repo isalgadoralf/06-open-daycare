@@ -5,6 +5,7 @@ import type { Kid } from "@/data/kids";
 
 type KidCardProps = {
   kid: Kid;
+  href?: string;
 };
 
 function linkedParentsLabel(kid: Kid) {
@@ -21,16 +22,17 @@ function linkedParentsLabel(kid: Kid) {
   return `${count} padres vinculados`;
 }
 
-export function KidCard({ kid }: KidCardProps) {
+export function KidCard({ kid, href }: KidCardProps) {
   const hasAlert = Boolean(kid.alert);
   const needsLink = kid.parents.length === 0;
-  const subtitle = `${kid.age} años · ${linkedParentsLabel(kid)}`;
+  const ageLabel = kid.age === 1 ? "1 año" : `${kid.age} años`;
+  const subtitle = `${ageLabel} · ${linkedParentsLabel(kid)}`;
 
-  return (
-    <Link
-      href={`/kids/${kid.id}`}
-      className="flex min-w-0 items-center gap-[14px] rounded-[18px] border border-edge bg-card p-4 shadow-[0_4px_14px_-12px_rgba(120,90,60,.5)] transition duration-150 hover:-translate-y-0.5 hover:border-kid-hover"
-    >
+  const cardClassName =
+    "flex min-w-0 items-center gap-[14px] rounded-[18px] border border-edge bg-card p-4 shadow-[0_4px_14px_-12px_rgba(120,90,60,.5)]";
+
+  const content = (
+    <>
       <Avatar label={kid.initial} tone={kid.tone} size="card" />
 
       <div className="min-w-0 flex-1">
@@ -41,16 +43,29 @@ export function KidCard({ kid }: KidCardProps) {
       </div>
 
       {hasAlert ? (
-        <span className="flex-none rounded-[999px] bg-pill-alert px-[9px] py-[5px] text-[11px] font-extrabold text-pill-alert-ink">
+        <span className="max-w-[132px] flex-none truncate rounded-[999px] bg-pill-alert px-[9px] py-[5px] text-[11px] font-extrabold text-pill-alert-ink">
           {kid.alert?.cardLabel}
         </span>
       ) : needsLink ? (
-        <span className="flex-none rounded-[999px] bg-pill-link px-[9px] py-[5px] text-[11px] font-extrabold text-pill-link-ink">
+        <span className="max-w-[132px] flex-none truncate rounded-[999px] bg-pill-link px-[9px] py-[5px] text-[11px] font-extrabold text-pill-link-ink">
           VINCULAR
         </span>
       ) : (
         <ChevronRightIcon />
       )}
+    </>
+  );
+
+  if (!href) {
+    return <div className={cardClassName}>{content}</div>;
+  }
+
+  return (
+    <Link
+      href={href}
+      className={`${cardClassName} transition duration-150 hover:-translate-y-0.5 hover:border-kid-hover`}
+    >
+      {content}
     </Link>
   );
 }
